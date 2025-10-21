@@ -1,0 +1,12 @@
+# Environment variables
+# Never commit this file!
+.env
+
+# Dependencies
+# This folder is huge and can be reinstalled by running `npm install`
+/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
