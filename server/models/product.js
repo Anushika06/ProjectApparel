@@ -3,13 +3,38 @@ const { Schema } = mongoose;
 
 const productSchema = new Schema(
   {
-    name: { type: String, required: true },
-    description: String,
-    basePrice: { type: Number, required: true },
-    material: String,
-    availableSizes: [String],
-    availableColors: [String],
-    images: [String],
+    name: { 
+      type: String, 
+      required: true,
+      trim: true 
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    basePrice: { 
+      type: Number, 
+      required: true 
+    },
+    fabrics: { 
+      type: [String],
+      required: true,
+      default: [],
+    },
+    availableSizes: { 
+      type: [String], 
+      required: true,
+      default: ['S', 'M', 'L', 'XL', 'XXL'],
+    },
+    availableColors: {
+      type: [String],
+      required: true,
+      default: [],
+    },
+    imageUrls: {
+      type: [String],
+      required: true,
+    },
   },
   { timestamps: true }
 );
