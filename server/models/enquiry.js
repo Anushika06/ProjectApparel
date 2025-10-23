@@ -5,10 +5,9 @@ const enquirySchema = new Schema(
   {
     name: { type: String, required: true },
     email: String,
-    phoneNumber: String,
+    phoneNumber: { type: String, required: true },
     companyName: String,
     message: String,
-    preferredContactMethod: { type: String, required: true }, // 'email' | 'phone' | 'whatsapp'
   },
   { timestamps: true }
 );
