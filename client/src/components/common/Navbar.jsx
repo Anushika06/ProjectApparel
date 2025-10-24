@@ -20,6 +20,11 @@ const Navbar = () => {
     }
   };
 
+  // Helper function to close the menu on navigation
+  const handleLinkClick = () => {
+    setMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-left">
@@ -38,41 +43,58 @@ const Navbar = () => {
       </button>
 
       <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-        <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+        {/* ADDED MISSING HOME LINK */}
+        <Link 
+          to="/" 
+          className={location.pathname === "/" ? "active" : ""} 
+          onClick={handleLinkClick}
+        >
           Home
         </Link>
         <Link
           to="/contact"
           className={location.pathname === "/contact" ? "active" : ""}
+          onClick={handleLinkClick}
         >
           Contact Us
         </Link>
 
         {isLoggedIn ? (
           <>
+            {/* Logged-in links */}
             <Link
               to="/cart"
               className={location.pathname === "/cart" ? "active" : ""}
+              onClick={handleLinkClick}
             >
               Cart
             </Link>
             <Link
               to="/orders"
               className={location.pathname === "/orders" ? "active" : ""}
+              onClick={handleLinkClick}
             >
               Past Orders
             </Link>
             <span className="user-badge">👋 Hi, {user.name}</span>
-            <button onClick={handleLogout} className="logout-btn">
+            <button 
+              onClick={() => {handleLogout(); handleLinkClick();}} 
+              className="logout-btn"
+            >
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="auth-btn">
+            {/* Logged-out links */}
+            <Link to="/login" className="auth-btn" onClick={handleLinkClick}>
               Sign In
             </Link>
-            <Link to="/signup" className="auth-btn secondary">
+            <Link 
+              to="/signup" 
+              className="auth-btn secondary"
+              onClick={handleLinkClick}
+            >
               Sign Up
             </Link>
           </>
