@@ -95,5 +95,11 @@ Key files and folders in this repository:
 
 -----
 
+## Screenshots
 
+![HomePage](Homepage.png)
+![OrderPage](OrderPage.png)
+![Cart](Cart.png)
+![PastOrders](PastOrders.png)
+![CustomizePage](CustomizePage.png)
 
