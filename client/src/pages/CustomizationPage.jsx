@@ -143,7 +143,7 @@ const CustomizationPage = () => {
       </div>
 
       <div className="customization-options">
-        <h1>{product.name}</h1>
+        <h1 style={{color:"#007bff"}}>{product.name}</h1> 
         <p>{product.description}</p>
         <h3>₹{product.basePrice.toFixed(2)}</h3>
 
