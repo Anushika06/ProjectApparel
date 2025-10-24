@@ -2,10 +2,10 @@ const cloudinary = require('../config/cloudinary.js');
 
 const getUploadSignature = (req, res) => {
   try {
-    // Get the current timestamp in seconds
+  
     const timestamp = Math.round((new Date()).getTime() / 1000);
 
-    // Get the signature from Cloudinary
+    
     const signature = cloudinary.utils.api_sign_request(
       {
         timestamp: timestamp,

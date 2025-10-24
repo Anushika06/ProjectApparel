@@ -1,40 +1,40 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { createOrder } from '../api/orders';
-import toast from 'react-hot-toast';
-import LoadingSpinner from '../components/common/LoadingSpinner';
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { createOrder } from "../api/orders";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 
 const CheckoutPage = () => {
   const [formData, setFormData] = useState({
-    deliveryAddress: '',
-    phoneNumber: '',
-    deliveryOption: 'Standard', 
+    deliveryAddress: "",
+    phoneNumber: "",
+    deliveryOption: "Standard",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [phoneError, setPhoneError] = useState('');
-  
+  const [phoneError, setPhoneError] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
   const { items } = location.state || { items: [] };
 
   useEffect(() => {
     if (!items || items.length === 0) {
-      toast.error('You must select an item to order.');
-      navigate('/'); // Go home if no items
+      toast.error("You must select an item to order.");
+      navigate("/");
     }
   }, [items, navigate]);
 
   const validatePhone = (phone) => {
     const phoneRegex = /^\+?[0-9\s-]{10,15}$/;
     if (!phone) {
-      setPhoneError('Phone number is required.');
+      setPhoneError("Phone number is required.");
       return false;
     }
     if (!phoneRegex.test(phone)) {
-      setPhoneError('Please enter a valid phone number (10-15 digits).');
+      setPhoneError("Please enter a valid phone number (10-15 digits).");
       return false;
     }
-    setPhoneError('');
+    setPhoneError("");
     return true;
   };
 
@@ -42,57 +42,53 @@ const CheckoutPage = () => {
     return <LoadingSpinner />;
   }
 
-  const totalAmount = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalAmount = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    if (name === 'phoneNumber') {
+    if (name === "phoneNumber") {
       validatePhone(value);
     }
   };
 
-  // --- THIS FUNCTION IS UPDATED ---
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validatePhone(formData.phoneNumber)) {
-      toast.error('Please enter a valid phone number.');
+      toast.error("Please enter a valid phone number.");
       return;
     }
 
     setIsLoading(true);
-    
+
     const orderData = {
       items,
       totalAmount,
       deliveryAddress: formData.deliveryAddress,
       phoneNumber: formData.phoneNumber,
-      deliveryOption: formData.deliveryOption, 
+      deliveryOption: formData.deliveryOption,
     };
 
     try {
-      // 1. Call the createOrder API
-      // The server now responds with { savedOrder, whatsappUrl }
-      const response = await createOrder(orderData); 
-      
-      toast.success('Order placed! Redirecting to WhatsApp...');
-      
-      // 2. Get the whatsappUrl from the server's response
+      const response = await createOrder(orderData);
+
+      toast.success("Order placed! Redirecting to WhatsApp...");
+
       const { whatsappUrl } = response;
 
-      // 3. Redirect the user's browser to WhatsApp
       if (whatsappUrl) {
         window.location.href = whatsappUrl;
       } else {
-        // Fallback just in case
         console.error("No WhatsApp URL received, redirecting to orders.");
-        navigate('/orders');
+        navigate("/orders");
       }
-
     } catch (error) {
-      toast.error('Failed to place order.');
+      toast.error("Failed to place order.");
     } finally {
       setIsLoading(false);
     }
@@ -102,38 +98,56 @@ const CheckoutPage = () => {
   return (
     <div className="form-container">
       <h1>Checkout</h1>
-      <div className="order-summary-checkout" style={{marginBottom: '20px'}}>
+      <div className="order-summary-checkout" style={{ marginBottom: "20px" }}>
         <h3>Order Summary</h3>
         {items.map((item, index) => {
-          const productName = item.productId?.name || 'Custom Product';
-          const imageUrl = item.productId?.imageUrls?.[0] || item.referenceImage;
+          const productName = item.productId?.name || "Custom Product";
+          const imageUrl =
+            item.productId?.imageUrls?.[0] || item.referenceImage;
 
           return (
-            <div key={item.productId || index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            <div
+              key={item.productId || index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
               {imageUrl && (
-                <img 
-                  src={imageUrl} 
-                  alt={productName} 
-                  style={{ width: '60px', height: '60px', objectFit: 'cover', marginRight: '15px', borderRadius: '4px' }} 
+                <img
+                  src={imageUrl}
+                  alt={productName}
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    objectFit: "cover",
+                    marginRight: "15px",
+                    borderRadius: "4px",
+                  }}
                 />
               )}
               <div>
                 {item.quantity} x {productName}
-                <br/>
+                <br />
                 (₹{item.price.toFixed(2)} each)
               </div>
             </div>
           );
         })}
-        <h4 style={{textAlign: 'right', marginTop: '10px'}}>Total: ₹{totalAmount.toFixed(2)}</h4>
-        <h5 style={{textAlign: 'right', marginTop: '10px'}}>These charges are exclusive of the delivery charges</h5>
+        <h4 style={{ textAlign: "right", marginTop: "10px" }}>
+          Total: ₹{totalAmount.toFixed(2)}
+        </h4>
+        <h5 style={{ textAlign: "right", marginTop: "10px" }}>
+          These charges are exclusive of the delivery charges
+        </h5>
       </div>
-      
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Delivery Option</label>
-          <select 
-            name="deliveryOption" 
+          <select
+            name="deliveryOption"
             value={formData.deliveryOption}
             onChange={handleChange}
           >
@@ -144,27 +158,33 @@ const CheckoutPage = () => {
 
         <div className="form-group">
           <label>Delivery Address</label>
-          <input 
-            type="text" 
-            name="deliveryAddress" 
+          <input
+            type="text"
+            name="deliveryAddress"
             value={formData.deliveryAddress}
             onChange={handleChange}
-            required 
+            required
           />
         </div>
         <div className="form-group">
           <label>Phone Number</label>
-          <input 
-            type="tel" 
-            name="phoneNumber" 
+          <input
+            type="tel"
+            name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
-            required 
+            required
           />
-          {phoneError && <p style={{ color: 'red', fontSize: '0.9rem', margin: '5px 0 0 0' }}>{phoneError}</p>}
+          {phoneError && (
+            <p
+              style={{ color: "red", fontSize: "0.9rem", margin: "5px 0 0 0" }}
+            >
+              {phoneError}
+            </p>
+          )}
         </div>
         <button type="submit" disabled={isLoading || !!phoneError}>
-          {isLoading ? 'Placing Order...' : 'Place Order & Send to WhatsApp'}
+          {isLoading ? "Placing Order..." : "Place Order & Send to WhatsApp"}
         </button>
       </form>
     </div>
@@ -172,4 +192,3 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
-

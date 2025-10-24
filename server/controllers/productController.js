@@ -9,7 +9,7 @@ const getProducts = async (req, res) => {
   }
 };
 
-// ADD THIS NEW FUNCTION
+
 const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -23,5 +23,5 @@ const getProductById = async (req, res) => {
   }
 };
 
-// UPDATE YOUR EXPORTS
+
 module.exports = { getProducts, getProductById };

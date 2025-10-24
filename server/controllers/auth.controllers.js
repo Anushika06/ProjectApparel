@@ -57,15 +57,15 @@ const signUp = async (req, res) => {
     });
     await newUser.save();
 
-    const token = await genToken(newUser._id); // Changed to await genToken
+    const token = await genToken(newUser._id); 
 
-    // --- THIS IS THE FIX ---
+    
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax", // "lax" allows the cookie to be sent on reload
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      sameSite: "lax", 
+      maxAge: 30 * 24 * 60 * 60 * 1000, 
     });
-    // -----------------------
+    
 
     res.status(201).json({
       _id: newUser._id,
@@ -93,15 +93,15 @@ const signIn = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = await genToken(user._id); // Changed to await genToken
+    const token = await genToken(user._id); 
 
-    // --- THIS IS THE FIX ---
+    
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax", // "lax" allows the cookie to be sent on reload
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      sameSite: "lax", 
+      maxAge: 30 * 24 * 60 * 60 * 1000, 
     });
-    // -----------------------
+    
 
     res.status(200).json({
       _id: user._id,
@@ -113,21 +113,21 @@ const signIn = async (req, res) => {
   }
 };
 
-// --- ADDED THIS FUNCTION TO FIX LOGOUT 404 ---
+
 const signOut = (req, res) => {
   try {
     res.cookie("token", "", {
       httpOnly: true,
-      sameSite: "lax", // Must match other cookie settings
-      expires: new Date(0), // Expire the cookie immediately
+      sameSite: "lax", 
+      expires: new Date(0), 
     });
     res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-// ---------------------------------------------
 
 
-// --- UPDATED EXPORTS ---
+
+
 module.exports = { signUp, signIn, signOut };

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { getProducts } from '../api/products';
-import ProductCard from '../components/products/ProductCard';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import toast from 'react-hot-toast';
-import './HomePage.css'; // add this import for the new hero styles
+import { useState, useEffect } from "react";
+import { getProducts } from "../api/products";
+import ProductCard from "../components/products/ProductCard";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import toast from "react-hot-toast";
+import "./HomePage.css";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +17,7 @@ const HomePage = () => {
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products:", error);
-        toast.error('Could not load products.');
+        toast.error("Could not load products.");
       } finally {
         setIsLoading(false);
       }
@@ -29,12 +29,16 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      {/* ✅ Hero Section */}
       <section className="hero-banner">
         <div className="hero-content">
           <h1>Custom Apparel Made Easy!</h1>
-          <p>From corporate polos to sports jerseys — we manufacture apparel that represents your identity.</p>
-          <a href="#products" className="hero-btn">Shop Now</a>
+          <p>
+            From corporate polos to sports jerseys — we manufacture apparel that
+            represents your identity.
+          </p>
+          <a href="#products" className="hero-btn">
+            Shop Now
+          </a>
         </div>
         <div className="hero-image">
           <img
@@ -44,12 +48,11 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ✅ Product Section */}
       <section id="products" className="product-section">
         <h2>All T-Shirts</h2>
         <div className="product-list">
           {products.length > 0 ? (
-            products.map(product => (
+            products.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))
           ) : (

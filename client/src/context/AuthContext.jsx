@@ -7,10 +7,10 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Checks session on app load
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
-    // Check for an existing session on app load
+
     const checkUserSession = async () => {
       try {
         const currentUser = await getCurrentUser();
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   if (isLoading) {
-    return <LoadingSpinner />; // Show loader while checking session
+    return <LoadingSpinner />; 
   }
 
   return (
@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to easily access auth context
 export const useAuth = () => {
   return useContext(AuthContext);
 };

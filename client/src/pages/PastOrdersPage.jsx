@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { getMyOrders } from '../api/orders';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from "react";
+import { getMyOrders } from "../api/orders";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const PastOrdersPage = () => {
   const [orders, setOrders] = useState([]);
@@ -14,7 +14,7 @@ const PastOrdersPage = () => {
         const data = await getMyOrders();
         setOrders(data);
       } catch (error) {
-        toast.error('Failed to load past orders.');
+        toast.error("Failed to load past orders.");
       } finally {
         setIsLoading(false);
       }
@@ -23,31 +23,33 @@ const PastOrdersPage = () => {
   }, []);
 
   if (isLoading) return <LoadingSpinner />;
-  if (orders.length === 0) return <h2 style={{textAlign: 'center'}}>You have no past orders.</h2>;
+  if (orders.length === 0)
+    return <h2 style={{ textAlign: "center" }}>You have no past orders.</h2>;
 
   return (
     <div className="past-orders-page">
       <h1>Past Orders</h1>
-      {orders.map(order => (
+      {orders.map((order) => (
         <div key={order._id} className="order-card">
           <h3>Order ID: {order._id}</h3>
           <p>Delivery Address: {order.deliveryAddress}</p>
-          <p>Placed on: {new Date(order.createdAt).toLocaleString('en-IN', { 
-              timeZone: 'Asia/Kolkata',
-              dateStyle: 'medium',
-              timeStyle: 'short'
+          <p>
+            Placed on:{" "}
+            {new Date(order.createdAt).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+              dateStyle: "medium",
+              timeStyle: "short",
             })}
           </p>
-          <p style={{fontWeight: 'bold', fontSize: '1.1rem'}}>Total: ₹{order.totalAmount.toFixed(2)}</p>
-          <h4 style={{marginTop: '15px', marginBottom: '10px'}}>Items:</h4>
+          <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
+            Total: ₹{order.totalAmount.toFixed(2)}
+          </p>
+          <h4 style={{ marginTop: "15px", marginBottom: "10px" }}>Items:</h4>
           <ul>
-            {order.items.map(item => (
-              <li key={item._id} style={{marginBottom: '5px'}}>
-                {/* --- THIS IS THE FIX ---
-                  We now check if item.productId exists. If it's null (an old/deleted product),
-                  we'll show "Deleted Product" instead of crashing the app.
-                */}
-                {item.quantity} x {item.productId ? item.productId.name : 'Deleted Product'} 
+            {order.items.map((item) => (
+              <li key={item._id} style={{ marginBottom: "5px" }}>
+                {item.quantity} x{" "}
+                {item.productId ? item.productId.name : "Deleted Product"}
                 (Size: {item.selectedSize}, Color: {item.selectedColor})
               </li>
             ))}
@@ -59,4 +61,3 @@ const PastOrdersPage = () => {
 };
 
 export default PastOrdersPage;
-

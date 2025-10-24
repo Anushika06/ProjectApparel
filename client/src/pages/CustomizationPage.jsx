@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getProductById } from '../api/products';
-import { addItemToCart } from '../api/cart';
-import { getSignature, uploadImage } from '../api/upload';
-import { useAuth } from '../context/AuthContext';
-import AuthModal from '../components/auth/AuthModal';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { getProductById } from "../api/products";
+import { addItemToCart } from "../api/cart";
+import { getSignature, uploadImage } from "../api/upload";
+import { useAuth } from "../context/AuthContext";
+import AuthModal from "../components/auth/AuthModal";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const CustomizationPage = () => {
   const { id } = useParams();
@@ -18,17 +18,14 @@ const CustomizationPage = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Customization state
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
-  const [selectedFabric, setSelectedFabric] = useState('');
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedFabric, setSelectedFabric] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [printDesign, setPrintDesign] = useState('');
+  const [printDesign, setPrintDesign] = useState("");
   const [imageFile, setImageFile] = useState(null);
-  
-  // --- NEW STATE for the custom color text box ---
-  const [customColor, setCustomColor] = useState('');
-  // ------------------------------------------------
+
+  const [customColor, setCustomColor] = useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -36,13 +33,15 @@ const CustomizationPage = () => {
         setIsLoading(true);
         const data = await getProductById(id);
         setProduct(data);
-        if (data.availableSizes.length > 0) setSelectedSize(data.availableSizes[0]);
-        // Set default color, but NOT to "other"
-        if (data.availableColors.length > 0) setSelectedColor(data.availableColors[0]);
+        if (data.availableSizes.length > 0)
+          setSelectedSize(data.availableSizes[0]);
+
+        if (data.availableColors.length > 0)
+          setSelectedColor(data.availableColors[0]);
         if (data.fabrics.length > 0) setSelectedFabric(data.fabrics[0]);
       } catch (error) {
         console.error("Failed to fetch product", error);
-        toast.error('Product not found.');
+        toast.error("Product not found.");
       } finally {
         setIsLoading(false);
       }
@@ -52,38 +51,35 @@ const CustomizationPage = () => {
 
   const handleImageUpload = async () => {
     if (!imageFile) {
-      return ''; // No file, return empty string
+      return "";
     }
 
     setIsUploading(true);
-    toast.loading('Uploading image...');
-    
+    toast.loading("Uploading image...");
+
     try {
       const { signature, timestamp } = await getSignature();
       const uploadData = await uploadImage(imageFile, signature, timestamp);
-      
+
       toast.dismiss();
-      toast.success('Image uploaded!');
+      toast.success("Image uploaded!");
       setIsUploading(false);
       return uploadData.secure_url;
-      
     } catch (error) {
       toast.dismiss();
-      toast.error('Image upload failed.');
+      toast.error("Image upload failed.");
       setIsUploading(false);
-      return 'error';
+      return "error";
     }
   };
 
-  // --- UPDATED THIS FUNCTION ---
   const getCustomizationDetails = (uploadedUrl) => {
-    // If 'other' is selected, use the customColor state. Otherwise, use selectedColor.
-    const finalColor = selectedColor === 'other' ? customColor : selectedColor;
+    const finalColor = selectedColor === "other" ? customColor : selectedColor;
 
     return {
       productId: product._id,
       selectedSize,
-      selectedColor: finalColor, // Use the final color
+      selectedColor: finalColor,
       selectedFabric,
       quantity: Number(quantity),
       price: product.basePrice,
@@ -91,7 +87,6 @@ const CustomizationPage = () => {
       referenceImage: uploadedUrl,
     };
   };
-  // -----------------------------
 
   const handleAuthCheck = () => {
     if (!isLoggedIn) {
@@ -104,38 +99,36 @@ const CustomizationPage = () => {
   const handleAddToCart = async () => {
     if (!handleAuthCheck()) return;
 
-    // Check if custom color is empty when 'other' is selected
-    if (selectedColor === 'other' && !customColor) {
-      toast.error('Please specify your custom color.');
+    if (selectedColor === "other" && !customColor) {
+      toast.error("Please specify your custom color.");
       return;
     }
 
     const uploadedUrl = await handleImageUpload();
-    if (uploadedUrl === 'error') return; 
+    if (uploadedUrl === "error") return;
 
     try {
       const itemDetails = getCustomizationDetails(uploadedUrl);
       await addItemToCart(itemDetails);
-      toast.success('Added to cart!');
+      toast.success("Added to cart!");
     } catch (error) {
-      toast.error('Failed to add item.');
+      toast.error("Failed to add item.");
     }
   };
 
   const handleOrderNow = async () => {
     if (!handleAuthCheck()) return;
-    
-    // Check if custom color is empty when 'other' is selected
-    if (selectedColor === 'other' && !customColor) {
-      toast.error('Please specify your custom color.');
+
+    if (selectedColor === "other" && !customColor) {
+      toast.error("Please specify your custom color.");
       return;
     }
 
     const uploadedUrl = await handleImageUpload();
-    if (uploadedUrl === 'error') return; 
-    
+    if (uploadedUrl === "error") return;
+
     const itemDetails = getCustomizationDetails(uploadedUrl);
-    navigate('/checkout', { state: { items: [itemDetails] } });
+    navigate("/checkout", { state: { items: [itemDetails] } });
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -144,7 +137,7 @@ const CustomizationPage = () => {
   return (
     <div className="customization-page">
       {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
-      
+
       <div className="customization-image">
         <img src={product.imageUrls[0]} alt={product.name} />
       </div>
@@ -156,53 +149,75 @@ const CustomizationPage = () => {
 
         <div className="form-group">
           <label>Size:</label>
-          <select value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
-            {product.availableSizes.map(size => <option key={size} value={size}>{size}</option>)}
+          <select
+            value={selectedSize}
+            onChange={(e) => setSelectedSize(e.target.value)}
+          >
+            {product.availableSizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
           </select>
         </div>
 
-        {/* --- UPDATED THIS ENTIRE DIV --- */}
         <div className="form-group">
           <label>Color:</label>
-          <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-            {product.availableColors.map(color => <option key={color} value={color}>{color}</option>)}
-            {/* Add the 'Other' option */}
+          <select
+            value={selectedColor}
+            onChange={(e) => setSelectedColor(e.target.value)}
+          >
+            {product.availableColors.map((color) => (
+              <option key={color} value={color}>
+                {color}
+              </option>
+            ))}
+
             <option value="other">Other (Please specify)</option>
           </select>
-          
-          {/* This input box will only appear if 'other' is selected */}
-          {selectedColor === 'other' && (
-            <input 
-              type="text" 
+
+          {selectedColor === "other" && (
+            <input
+              type="text"
               value={customColor}
               onChange={(e) => setCustomColor(e.target.value)}
               placeholder="Type your custom color"
-              style={{marginTop: '10px', width: '100%', boxSizing: 'border-box'}} // Added styling
+              style={{
+                marginTop: "10px",
+                width: "100%",
+                boxSizing: "border-box",
+              }}
             />
           )}
         </div>
-        {/* ------------------------------- */}
 
         <div className="form-group">
           <label>Fabric:</label>
-          <select value={selectedFabric} onChange={(e) => setSelectedFabric(e.target.value)}>
-            {product.fabrics.map(fabric => <option key={fabric} value={fabric}>{fabric}</option>)}
+          <select
+            value={selectedFabric}
+            onChange={(e) => setSelectedFabric(e.target.value)}
+          >
+            {product.fabrics.map((fabric) => (
+              <option key={fabric} value={fabric}>
+                {fabric}
+              </option>
+            ))}
           </select>
         </div>
 
         <div className="form-group">
           <label>Print Design Description:</label>
-          <textarea 
+          <textarea
             rows="3"
             value={printDesign}
             onChange={(e) => setPrintDesign(e.target.value)}
             placeholder="Describe your print idea..."
           ></textarea>
         </div>
-        
+
         <div className="form-group">
           <label>Reference Image (Optional):</label>
-          <input 
+          <input
             type="file"
             accept="image/png, image/jpeg, image/gif"
             onChange={(e) => setImageFile(e.target.files[0])}
@@ -211,11 +226,11 @@ const CustomizationPage = () => {
 
         <div className="form-group">
           <label>Quantity:</label>
-          <input 
-            type="number" 
-            value={quantity} 
-            onChange={(e) => setQuantity(Number(e.target.value))} 
-            min="1" 
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            min="1"
           />
         </div>
 
@@ -224,10 +239,10 @@ const CustomizationPage = () => {
         </p>
 
         <button onClick={handleAddToCart} disabled={isUploading}>
-          {isUploading ? 'Uploading...' : 'Add to Cart'}
+          {isUploading ? "Uploading..." : "Add to Cart"}
         </button>
         <button onClick={handleOrderNow} disabled={isUploading}>
-          {isUploading ? 'Uploading...' : 'Order Now'}
+          {isUploading ? "Uploading..." : "Order Now"}
         </button>
       </div>
     </div>
@@ -235,4 +250,3 @@ const CustomizationPage = () => {
 };
 
 export default CustomizationPage;
-

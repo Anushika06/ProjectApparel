@@ -12,14 +12,10 @@ const ProductCard = ({ product }) => {
         <h3>{product.name}</h3>
         <p>From ₹{product.basePrice.toFixed(2)}</p>
         <div className="card-buttons">
-          {/* This link goes to the full customization page */}
+          
           <Link to={`/product/${product._id}`}>Customize</Link>
           
-          {/* --- THIS IS THE FIX --- */}
-          {/* Your error is here. You must use backticks `` and a $ sign */}
-          {/* NOT a ₹ sign or any other string. */}
           <Link to={`/order-now/${product._id}`}>Order Now</Link>
-          {/* --------------------- */}
 
         </div>
       </div>

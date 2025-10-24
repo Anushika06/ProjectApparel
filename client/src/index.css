@@ -1,11 +1,10 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
   margin: 0;
-  /* --- YOUR CHANGE IS INCLUDED --- */
   background-color: beige;
-  /* ------------------------------- */
   color: #333;
-  overflow-x: hidden; /* Prevents horizontal scroll */
+  overflow-x: hidden;
 }
 
 a {
@@ -21,7 +20,7 @@ button {
   font-size: 16px;
   font-weight: 600;
 }
-/* ... (rest of button styles) ... */
+
 button:hover {
   opacity: 0.9;
   box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
@@ -38,20 +37,18 @@ button:disabled {
   padding: 20px;
 }
 
-/* Navbar */
 nav {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Updated for responsive */
+  justify-content: space-between;
   gap: 20px;
   padding: 15px 30px;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  flex-wrap: wrap; /* Allows nav to wrap */
+  flex-wrap: wrap;
 }
 
-/* --- RESPONSIVE NAV STYLES --- */
 .nav-links {
   display: flex;
   gap: 20px;
@@ -59,13 +56,12 @@ nav {
 }
 
 .nav-toggle {
-  display: none; /* Hide toggle on desktop */
+  display: none;
   font-size: 24px;
   background: none;
   border: none;
   cursor: pointer;
 }
-/* --- END RESPONSIVE NAV --- */
 
 nav a {
   font-weight: 500;
@@ -78,7 +74,6 @@ nav a:hover {
 
 nav span {
   font-weight: 600;
-  /* margin-left: auto; */ /* Removed for better flex layout */
 }
 
 nav button {
@@ -87,7 +82,6 @@ nav button {
   margin-left: 15px;
 }
 
-/* Forms */
 .form-container {
   max-width: 450px;
   margin: 40px auto;
@@ -96,7 +90,7 @@ nav button {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-/* ... (rest of form styles) ... */
+
 .form-container h1 {
   text-align: center;
   margin-top: 0;
@@ -120,7 +114,7 @@ nav button {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box; /* Important */
+  box-sizing: border-box;
 }
 
 .form-container button {
@@ -134,8 +128,6 @@ nav button {
   margin-top: 15px;
 }
 
-
-/* --- PRODUCT CARD (SOLVED) --- */
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -143,26 +135,23 @@ nav button {
 }
 
 .product-card {
-  /* Removed fixed height */
   display: flex;
   flex-direction: column;
-  border-radius: 20px; /* Kept your border-radius */
+  border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: white;
-  overflow: hidden; /* Good practice */
+  overflow: hidden;
 }
 
 .product-card img {
-  width: 100%; /* Make image responsive */
-  height: 300px; /* Set a consistent height for the image box */
+  width: 100%;
+  height: 300px;
 
-  /* --- THIS IS THE FIX --- */
-  object-fit: contain; /* Was 'cover', now 'contain' */
-  /* ----------------------- */
+  object-fit: contain;
 
-  background-color: #fdfdfd; /* Add a light background for images */
-  border-top-left-radius: 20px; /* Kept your radius */
-  border-top-right-radius: 20px; /* Kept your radius */
+  background-color: #fdfdfd;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .product-card:hover {
@@ -171,8 +160,8 @@ nav button {
 
 .product-card-content {
   padding: 20px;
-  /* This ensures the content area doesn't shrink */
-  flex-grow: 1; 
+
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
@@ -192,12 +181,9 @@ nav button {
 .product-card .card-buttons {
   display: flex;
   gap: 10px;
-  margin-top: auto; /* Pushes buttons to the bottom of the card */
+  margin-top: auto;
 }
-/* --- END PRODUCT CARD --- */
 
-
-/* ... (rest of .product-card styles) ... */
 .product-card .card-buttons a {
   flex: 1;
   text-align: center;
@@ -216,10 +202,9 @@ nav button {
   color: #fff;
 }
 
-/* Customization Page */
 .customization-page {
   display: grid;
-  grid-template-columns: 1fr; /* 1 column on mobile */
+  grid-template-columns: 1fr;
   gap: 40px;
   max-width: 1000px;
   margin: 20px auto;
@@ -236,7 +221,7 @@ nav button {
 .customization-options h1 {
   margin-top: 0;
 }
-/* ... (rest of customization styles) ... */
+
 .customization-options button {
   margin-right: 10px;
   background-color: #28a745;
@@ -247,23 +232,24 @@ nav button {
   background-color: #007bff;
 }
 
-/* Cart & Orders */
-.cart-page, .past-orders-page {
+.cart-page,
+.past-orders-page {
   max-width: 800px;
   margin: 20px auto;
 }
 
-.cart-item, .order-card {
+.cart-item,
+.order-card {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .cart-item {
   display: flex;
-  flex-direction: column; /* Stack on mobile */
+  flex-direction: column;
   align-items: flex-start;
   gap: 15px;
 }
@@ -272,7 +258,7 @@ nav button {
   margin: 0;
   flex: 2;
 }
-/* ... (rest of cart styles) ... */
+
 .cart-item input {
   width: 60px;
 }
@@ -294,14 +280,13 @@ nav button {
   color: white;
 }
 
-/* Loading Spinner */
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80vh;
 }
-/* ... (rest of spinner styles) ... */
+
 .spinner {
   width: 50px;
   height: 50px;
@@ -311,11 +296,14 @@ nav button {
   animation: spin 1s linear infinite;
 }
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-/* Auth Modal */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -328,14 +316,14 @@ nav button {
   align-items: center;
   z-index: 1000;
 }
-/* ... (rest of modal styles) ... */
+
 .modal-content {
   background: white;
   padding: 30px;
   border-radius: 8px;
   text-align: center;
   max-width: 400px;
-  margin: 15px; /* Added for small screens */
+  margin: 15px;
 }
 
 .modal-content a {
@@ -353,10 +341,6 @@ nav button {
   color: white;
 }
 
-
-/* --- RESPONSIVE MEDIA QUERIES --- */
-
-/* Tablet and larger */
 @media (min-width: 768px) {
   .customization-page {
     grid-template-columns: 1fr 1fr;
@@ -372,26 +356,24 @@ nav button {
   }
 }
 
-
-/* Mobile (small screens) */
 @media (max-width: 767px) {
   nav {
     justify-content: space-between;
   }
-  
+
   .nav-toggle {
-    display: block; /* Show burger menu */
+    display: block;
   }
 
   .nav-links {
-    display: none; /* Hide links by default */
+    display: none;
     flex-direction: column;
     width: 100%;
     align-items: flex-start;
     gap: 15px;
     padding-top: 15px;
   }
-  
+
   .nav-links.open {
     display: flex;
   }
@@ -403,7 +385,7 @@ nav button {
 
   nav span {
     width: 100%;
-    order: -1; /* Move "Hi, Anushika" to the top */
+    order: -1;
   }
 
   .form-container {
@@ -416,9 +398,11 @@ nav button {
   }
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: #222;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
 }
 
@@ -427,17 +411,23 @@ body {
   color: #333;
 }
 
-/* Add gentle fade-in animation for pages */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-div, section, .product-list {
+div,
+section,
+.product-list {
   animation: fadeIn 0.4s ease-in-out;
 }
 
-/* Product card polish */
 .product-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -445,4 +435,3 @@ div, section, .product-list {
   transform: translateY(-8px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
-
