@@ -22,7 +22,7 @@ app.use('/images', express.static('public/images'));
 
 
 const corsOptions = {
-  origin: 'http://localhost:5173', 
+  origin: 'https://project-apparel-3i2y61a24-anushikas-projects-e657cf47.vercel.app/', 
   credentials: true,
 };
 app.use(cors(corsOptions));
