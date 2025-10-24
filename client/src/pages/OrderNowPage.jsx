@@ -93,6 +93,7 @@ const OrderNowPage = () => {
 
       <div className="customization-options">
         <h1>{product.name}</h1>
+        <p>Material: {product.selectedFabric}</p>
         <p>{product.description}</p>
         <p>
           This is a "quick order" for the item as shown. For full customization,
@@ -124,7 +125,7 @@ const OrderNowPage = () => {
           />
         </div>
 
-        {/* --- WRAPPED BUTTONS IN A DIV --- */}
+     
         <div style={{ display: "flex", gap: "10px", width: "100%" }}>
           <button
             onClick={handleAddToCart}
