@@ -106,7 +106,7 @@ const OrderNowPage = () => {
           <span style={{marginLeft: '15px', fontWeight: 'bold'}}>Color:</span> {selectedColor}
         </p>
         <p>{product.description}</p>
-        <p>This is a "quick order" for the item as shown. For full customization, please use the "Customize" button.</p>
+        <p>(This is a "quick order" for the item as shown. For full customization, please use the "Customize" button)</p>
         <h3>₹{product.basePrice.toFixed(2)}</h3>
 
         <div className="form-group">
