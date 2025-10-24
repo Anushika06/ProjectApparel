@@ -76,8 +76,9 @@ button.logout-btn:hover {
 }
 
 .auth-btn {
-  background: #88b6e6;
-  color: white;
+  background: lightblue;
+  color: rgb(8, 17, 48);
+  border: 2px solid white;
   padding: 8px 15px;
   border-radius: 6px;
   font-weight: 600;
