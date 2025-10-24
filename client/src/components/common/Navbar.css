@@ -1,9 +1,10 @@
+/* --- General Navbar Styles (Updated for Blue Background) --- */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 18px 40px;
-  background: #ffffff;
+  background: #007bff; /* Changed to Blue for the Mobile Look */
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
@@ -13,7 +14,7 @@
 .nav-logo {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #007bff;
+  color: white; /* Changed to White to stand out on blue background */
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -24,16 +25,21 @@
   gap: 25px;
 }
 
+/* --- Nav Link Styles (Kept for Desktop) --- */
 .nav-links a {
   text-decoration: none;
-  color: #444;
+  color: #c9e0ff; /* Lighter color for blue background */
   font-weight: 500;
   position: relative;
   transition: all 0.2s ease-in-out;
 }
 
 .nav-links a:hover {
-  color: #007bff;
+  color: white;
+}
+
+.nav-links a.active {
+  color: white;
 }
 
 .nav-links a.active::after {
@@ -43,12 +49,12 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: #007bff;
+  background: white; /* Active line is white */
   border-radius: 2px;
 }
 
 .user-badge {
-  background: #f0f7ff;
+  background: white;
   color: #007bff;
   padding: 6px 12px;
   border-radius: 20px;
@@ -84,13 +90,13 @@ button.logout-btn:hover {
 
 .auth-btn.secondary {
   background: transparent;
-  color: #007bff;
-  border: 2px solid #007bff;
+  color: white; /* Changed to white */
+  border: 2px solid white; /* Changed to white */
 }
 
 .auth-btn.secondary:hover {
-  background: #06213f;
-  color: white;
+  background: white;
+  color: #007bff; /* Text becomes blue on hover */
 }
 
 
@@ -102,32 +108,40 @@ button.logout-btn:hover {
   cursor: pointer;
 }
 
+/* --- Mobile Styles (max-width: 768px) --- */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row; /* Keep elements horizontal in the blue bar */
+    align-items: center;
+    justify-content: space-between; /* Space out logo and toggle */
     padding: 15px 20px;
     position: relative;
     z-index: 1000; 
   }
-
-  .nav-toggle {
-    display: block;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 1.8rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1001;
+  
+  /* Reset the logo position from being flex-start on mobile */
+  .nav-left {
+    flex-grow: 1; 
   }
 
+  /* Style the Hamburger Button to match the image's aesthetic */
+  .nav-toggle {
+    display: block;
+    position: static; /* Removed absolute positioning */
+    font-size: 1.8rem;
+    color: white; /* White icon on blue bar */
+    background: rgba(255, 255, 255, 0.15); /* Subtle background for button shape */
+    padding: 2px 10px;
+    border-radius: 5px;
+    line-height: 1.5rem;
+    z-index: 1001;
+  }
+  
   .nav-links {
     display: none;
     flex-direction: column;
     width: 100%;
-    background: #ffffff;
+    background: #ffffff; /* White dropdown menu */
     padding: 15px 0;
     text-align: center;
     position: absolute;
@@ -140,11 +154,26 @@ button.logout-btn:hover {
   .nav-links.open {
     display: flex;
   }
+  
+  /* Mobile Link Color inside the White Dropdown */
+  .nav-links a {
+    color: #444; /* Dark links inside the white dropdown */
+    padding: 10px 0;
+  }
 
-  .nav-links a,
-  .auth-btn,
-  .logout-btn {
-    width: 100%;
-    justify-content: center;
+  .nav-links a:hover {
+    color: #007bff;
+  }
+  
+  .nav-links a.active::after {
+    display: none; /* Hide the active underline in the mobile menu */
+  }
+
+  /* Ensure auth buttons are full width and stand out */
+  .nav-links a.auth-btn,
+  button.logout-btn {
+    width: 80%;
+    margin: 5px auto;
+    text-align: center;
   }
 }
