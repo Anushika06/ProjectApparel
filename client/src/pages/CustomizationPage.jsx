@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getProductById } from '../api/products';
 import { addItemToCart } from '../api/cart';
-import { getSignature, uploadImage } from '../api/upload'; // NEW IMPORT
+import { getSignature, uploadImage } from '../api/upload';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from '../components/auth/AuthModal';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -15,7 +15,7 @@ const CustomizationPage = () => {
 
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isUploading, setIsUploading] = useState(false); // NEW STATE for upload status
+  const [isUploading, setIsUploading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Customization state
@@ -24,9 +24,11 @@ const CustomizationPage = () => {
   const [selectedFabric, setSelectedFabric] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [printDesign, setPrintDesign] = useState('');
+  const [imageFile, setImageFile] = useState(null);
   
-  // --- MODIFIED THIS ---
-  const [imageFile, setImageFile] = useState(null); // To hold the file object
+  // --- NEW STATE for the custom color text box ---
+  const [customColor, setCustomColor] = useState('');
+  // ------------------------------------------------
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -35,6 +37,7 @@ const CustomizationPage = () => {
         const data = await getProductById(id);
         setProduct(data);
         if (data.availableSizes.length > 0) setSelectedSize(data.availableSizes[0]);
+        // Set default color, but NOT to "other"
         if (data.availableColors.length > 0) setSelectedColor(data.availableColors[0]);
         if (data.fabrics.length > 0) setSelectedFabric(data.fabrics[0]);
       } catch (error) {
@@ -47,50 +50,48 @@ const CustomizationPage = () => {
     fetchProduct();
   }, [id]);
 
-  // --- NEW FUNCTION ---
-  // Handles uploading the image to Cloudinary if one is selected
   const handleImageUpload = async () => {
     if (!imageFile) {
-      return ''; // No file selected, return empty string for the URL
+      return ''; // No file, return empty string
     }
 
     setIsUploading(true);
     toast.loading('Uploading image...');
     
     try {
-      // 1. Get signature from our backend
       const { signature, timestamp } = await getSignature();
-      
-      // 2. Upload file to Cloudinary
       const uploadData = await uploadImage(imageFile, signature, timestamp);
       
       toast.dismiss();
       toast.success('Image uploaded!');
       setIsUploading(false);
-      return uploadData.secure_url; // Return the new Cloudinary URL
+      return uploadData.secure_url;
       
     } catch (error) {
       toast.dismiss();
-      toast.error('Image upload failed. Please try again.');
+      toast.error('Image upload failed.');
       setIsUploading(false);
-      return 'error'; // Return an error flag
+      return 'error';
     }
   };
 
-  // --- MODIFIED THIS FUNCTION ---
-  // Now accepts the uploaded URL
+  // --- UPDATED THIS FUNCTION ---
   const getCustomizationDetails = (uploadedUrl) => {
+    // If 'other' is selected, use the customColor state. Otherwise, use selectedColor.
+    const finalColor = selectedColor === 'other' ? customColor : selectedColor;
+
     return {
       productId: product._id,
       selectedSize,
-      selectedColor,
+      selectedColor: finalColor, // Use the final color
       selectedFabric,
       quantity: Number(quantity),
       price: product.basePrice,
       printDesign,
-      referenceImage: uploadedUrl, // Use the new URL
+      referenceImage: uploadedUrl,
     };
   };
+  // -----------------------------
 
   const handleAuthCheck = () => {
     if (!isLoggedIn) {
@@ -100,16 +101,18 @@ const CustomizationPage = () => {
     return true;
   };
 
-  // --- MODIFIED THIS FUNCTION ---
-  // Now uploads image *before* adding to cart
   const handleAddToCart = async () => {
     if (!handleAuthCheck()) return;
 
-    // 1. Upload image first
-    const uploadedUrl = await handleImageUpload();
-    if (uploadedUrl === 'error') return; // Stop if upload failed
+    // Check if custom color is empty when 'other' is selected
+    if (selectedColor === 'other' && !customColor) {
+      toast.error('Please specify your custom color.');
+      return;
+    }
 
-    // 2. Add to cart with the new URL
+    const uploadedUrl = await handleImageUpload();
+    if (uploadedUrl === 'error') return; 
+
     try {
       const itemDetails = getCustomizationDetails(uploadedUrl);
       await addItemToCart(itemDetails);
@@ -119,16 +122,18 @@ const CustomizationPage = () => {
     }
   };
 
-  // --- MODIFIED THIS FUNCTION ---
-  // Now uploads image *before* going to checkout
   const handleOrderNow = async () => {
     if (!handleAuthCheck()) return;
-
-    // 1. Upload image first
-    const uploadedUrl = await handleImageUpload();
-    if (uploadedUrl === 'error') return; // Stop if upload failed
     
-    // 2. Go to checkout with the new URL
+    // Check if custom color is empty when 'other' is selected
+    if (selectedColor === 'other' && !customColor) {
+      toast.error('Please specify your custom color.');
+      return;
+    }
+
+    const uploadedUrl = await handleImageUpload();
+    if (uploadedUrl === 'error') return; 
+    
     const itemDetails = getCustomizationDetails(uploadedUrl);
     navigate('/checkout', { state: { items: [itemDetails] } });
   };
@@ -147,7 +152,7 @@ const CustomizationPage = () => {
       <div className="customization-options">
         <h1>{product.name}</h1>
         <p>{product.description}</p>
-        <h3>${product.basePrice.toFixed(2)}</h3>
+        <h3>₹{product.basePrice.toFixed(2)}</h3>
 
         <div className="form-group">
           <label>Size:</label>
@@ -156,12 +161,27 @@ const CustomizationPage = () => {
           </select>
         </div>
 
+        {/* --- UPDATED THIS ENTIRE DIV --- */}
         <div className="form-group">
           <label>Color:</label>
           <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
             {product.availableColors.map(color => <option key={color} value={color}>{color}</option>)}
+            {/* Add the 'Other' option */}
+            <option value="other">Other (Please specify)</option>
           </select>
+          
+          {/* This input box will only appear if 'other' is selected */}
+          {selectedColor === 'other' && (
+            <input 
+              type="text" 
+              value={customColor}
+              onChange={(e) => setCustomColor(e.target.value)}
+              placeholder="Type your custom color"
+              style={{marginTop: '10px', width: '100%', boxSizing: 'border-box'}} // Added styling
+            />
+          )}
         </div>
+        {/* ------------------------------- */}
 
         <div className="form-group">
           <label>Fabric:</label>
@@ -180,7 +200,6 @@ const CustomizationPage = () => {
           ></textarea>
         </div>
         
-        {/* --- THIS IS THE NEW FILE UPLOAD INPUT --- */}
         <div className="form-group">
           <label>Reference Image (Optional):</label>
           <input 
@@ -189,7 +208,6 @@ const CustomizationPage = () => {
             onChange={(e) => setImageFile(e.target.files[0])}
           />
         </div>
-        {/* ------------------------------------------ */}
 
         <div className="form-group">
           <label>Quantity:</label>
@@ -205,7 +223,6 @@ const CustomizationPage = () => {
           Bulk order? <Link to="/contact">Contact for discount</Link>
         </p>
 
-        {/* Buttons are disabled while uploading */}
         <button onClick={handleAddToCart} disabled={isUploading}>
           {isUploading ? 'Uploading...' : 'Add to Cart'}
         </button>
@@ -218,3 +235,4 @@ const CustomizationPage = () => {
 };
 
 export default CustomizationPage;
+

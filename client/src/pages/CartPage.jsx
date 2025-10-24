@@ -64,7 +64,7 @@ const CartPage = () => {
           <div>
             <h4>{item.productId.name}</h4>
             <p>Size: {item.selectedSize}, Color: {item.selectedColor}</p>
-            <p>Price: ${item.price.toFixed(2)}</p>
+            <p>Price: ₹{item.price.toFixed(2)}</p>
           </div>
           <input 
             type="number" 
@@ -77,7 +77,7 @@ const CartPage = () => {
         </div>
       ))}
       <div className="order-summary">
-        <h3>Total: ${cart.totalAmount.toFixed(2)}</h3>
+        <h3>Total: ₹{cart.totalAmount.toFixed(2)}</h3>
         <button onClick={handleCheckout}>Proceed to Checkout</button>
       </div>
     </div>

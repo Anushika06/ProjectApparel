@@ -120,12 +120,13 @@ const CheckoutPage = () => {
               <div>
                 {item.quantity} x {productName}
                 <br/>
-                (${item.price.toFixed(2)} each)
+                (₹{item.price.toFixed(2)} each)
               </div>
             </div>
           );
         })}
-        <h4 style={{textAlign: 'right', marginTop: '10px'}}>Total: ${totalAmount.toFixed(2)}</h4>
+        <h4 style={{textAlign: 'right', marginTop: '10px'}}>Total: ₹{totalAmount.toFixed(2)}</h4>
+        <h5 style={{textAlign: 'right', marginTop: '10px'}}>These charges are exclusive of the delivery charges</h5>
       </div>
       
       <form onSubmit={handleSubmit}>

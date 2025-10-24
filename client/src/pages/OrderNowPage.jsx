@@ -103,7 +103,7 @@ const OrderNowPage = () => {
         <h1>{product.name}</h1>
         <p>{product.description}</p>
         <p>This is a "quick order" for the item as shown. For full customization, please use the "Customize" button.</p>
-        <h3>${product.basePrice.toFixed(2)}</h3>
+        <h3>₹{product.basePrice.toFixed(2)}</h3>
 
         <div className="form-group">
           <label>Size:</label>

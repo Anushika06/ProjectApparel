@@ -31,16 +31,23 @@ const PastOrdersPage = () => {
       {orders.map(order => (
         <div key={order._id} className="order-card">
           <h3>Order ID: {order._id}</h3>
-          <p>Placed on: {new Date(order.createdAt).toLocaleDateString()}</p>
           <p>Delivery Address: {order.deliveryAddress}</p>
-          {/* --- REMOVED THE "Status: Processing" LINE --- */}
-          <p style={{fontWeight: 'bold', fontSize: '1.1rem'}}>Total: ${order.totalAmount.toFixed(2)}</p>
+          <p>Placed on: {new Date(order.createdAt).toLocaleString('en-IN', { 
+              timeZone: 'Asia/Kolkata',
+              dateStyle: 'medium',
+              timeStyle: 'short'
+            })}
+          </p>
+          <p style={{fontWeight: 'bold', fontSize: '1.1rem'}}>Total: ₹{order.totalAmount.toFixed(2)}</p>
           <h4 style={{marginTop: '15px', marginBottom: '10px'}}>Items:</h4>
           <ul>
             {order.items.map(item => (
               <li key={item._id} style={{marginBottom: '5px'}}>
-                {/* item.productId is populated by the backend */}
-                {item.quantity} x {item.productId.name} 
+                {/* --- THIS IS THE FIX ---
+                  We now check if item.productId exists. If it's null (an old/deleted product),
+                  we'll show "Deleted Product" instead of crashing the app.
+                */}
+                {item.quantity} x {item.productId ? item.productId.name : 'Deleted Product'} 
                 (Size: {item.selectedSize}, Color: {item.selectedColor})
               </li>
             ))}
@@ -52,3 +59,4 @@ const PastOrdersPage = () => {
 };
 
 export default PastOrdersPage;
+

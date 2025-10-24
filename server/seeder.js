@@ -7,23 +7,41 @@ dotenv.config();
 // Sample data that matches your new Product schema
 const sampleProducts = [
   {
-    name: 'Classic Crew Neck T-Shirt',
-    description: 'A timeless and comfortable t-shirt, perfect for any brand. Made from 100% premium combed cotton.',
-    basePrice: 15.50,
-    fabrics: ['100% Cotton', 'Polyester Blend', 'Tri-Blend'],
-    availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
-    availableColors: ['Black', 'White', 'Navy Blue', 'Heather Grey'],
-    imageUrls: ['http://localhost:3000/images/tshirt.png'], // Using the static path we discussed
-  },
-  {
-    name: 'Premium Pullover Tshirt',
-    description: 'A cozy and stylish hoodie made from high-quality fleece, ideal for colder weather.',
+    name: 'Corporate Polo',
+    description: 'A professional classic-fit polo with an embroidered logo, perfect for corporate team wear',
     basePrice: 45.00,
     fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green'],
-    imageUrls: ['http://localhost:3000/images/hoodie.png'],
+    imageUrls: ['http://localhost:3000/images/tshirt3.png'],
   },
+  {
+    name: 'Sports Dynamic Performance Polo',
+    description: 'A moisture-wicking performance polo with a bold sublimated print and a logo',
+    basePrice: 45.00,
+    fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],
+    availableSizes: ['S', 'M', 'L', 'XL'],
+    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green'],
+    imageUrls: ['http://localhost:3000/images/tshirt1.png'],
+  },
+  {
+    name: 'Long-Sleeve Athletic Jersey',
+    description: 'A long-sleeve athletic jersey with a vibrant multi-color sublimated design and a logo',
+    basePrice: 45.00,
+    fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],
+    availableSizes: ['S', 'M', 'L', 'XL'],
+    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green'],
+    imageUrls: ['http://localhost:3000/images/tshirt2.png'],
+  },
+  {
+    name: 'School Uniform Polo Shirt',
+    description: 'The official school uniform polo in signature yellow and navy with an embroidered pocket crest.',
+    basePrice: 45.00,
+    fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],
+    availableSizes: ['S', 'M', 'L', 'XL'],
+    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green'],
+    imageUrls: ['http://localhost:3000/images/tshirt4.png'],
+  }
 ];
 
 const importData = async () => {
