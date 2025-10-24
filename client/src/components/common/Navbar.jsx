@@ -20,7 +20,7 @@ const Navbar = () => {
     }
   };
 
-  // Helper function to close the menu on navigation
+  
   const handleLinkClick = () => {
     setMenuOpen(false);
   };
@@ -33,7 +33,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Hamburger Button */}
+    
       <button
         className="nav-toggle"
         aria-label="toggle navigation"
@@ -43,7 +43,7 @@ const Navbar = () => {
       </button>
 
       <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-        {/* ADDED MISSING HOME LINK */}
+        
         <Link 
           to="/" 
           className={location.pathname === "/" ? "active" : ""} 
@@ -61,7 +61,7 @@ const Navbar = () => {
 
         {isLoggedIn ? (
           <>
-            {/* Logged-in links */}
+            
             <Link
               to="/cart"
               className={location.pathname === "/cart" ? "active" : ""}
@@ -86,7 +86,7 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            {/* Logged-out links */}
+            
             <Link to="/login" className="auth-btn" onClick={handleLinkClick}>
               Sign In
             </Link>

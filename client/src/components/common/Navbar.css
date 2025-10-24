@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px 40px;
-  background: #007bff; /* Blue header across all views */
+  background: #007bff; 
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
@@ -14,7 +14,7 @@
 .nav-logo {
   font-size: 1.6rem;
   font-weight: 700;
-  color: white; /* White logo on blue header */
+  color: white; 
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -25,10 +25,9 @@
   gap: 25px;
 }
 
-/* Nav Link Styling for Desktop */
 .nav-links a {
   text-decoration: none;
-  color: #c9e0ff; /* Lighter color for blue background */
+  color: #c9e0ff;
   font-weight: 500;
   position: relative;
   transition: all 0.2s ease-in-out;
@@ -49,11 +48,10 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: white; /* Active line is white */
+  background: white;
   border-radius: 2px;
 }
 
-/* User Badge and Button Styles for Desktop */
 .user-badge {
   background: white;
   color: #007bff;
@@ -99,21 +97,14 @@ button.logout-btn:hover {
   color: #007bff;
 }
 
-/* Hide the toggle button on desktop */
+
 .nav-toggle {
   display: none;
 }
 
 
-/* ======================================= */
-/* 📱 Mobile Styles (max-width: 768px)     */
-/* ======================================= */
-/* ======================================= */
-/* 📱 Mobile Styles (max-width: 768px)     */
-/* ======================================= */
 @media (max-width: 768px) {
   .navbar {
-    /* Set back to a horizontal bar for mobile header */
     flex-direction: row; 
     align-items: center;
     justify-content: space-between; 
@@ -124,7 +115,7 @@ button.logout-btn:hover {
     flex-grow: 1; 
   }
 
-  /* Hamburger Toggle Button Style */
+
   .nav-toggle {
     display: block;
     position: static; 
@@ -137,12 +128,12 @@ button.logout-btn:hover {
     z-index: 1001;
   }
   
-  /* Dropdown Menu Container */
+
   .nav-links {
     display: none;
     flex-direction: column;
     width: 100%;
-    background: #ffffff; /* White dropdown menu */
+    background: #ffffff; 
     padding: 0; 
     text-align: left; 
     position: absolute;
@@ -155,8 +146,7 @@ button.logout-btn:hover {
   .nav-links.open {
     display: flex;
   }
-  
-  /* Style all interactive elements inside the dropdown for list appearance */
+
   .nav-links > * {
     width: 100%;
     padding: 12px 20px; 
@@ -168,27 +158,26 @@ button.logout-btn:hover {
   .nav-links > *:last-child {
     border-bottom: none;
   }
-  
-  /* Mobile Link Styles (inside the white dropdown) */
+
   .nav-links a {
     color: #444; 
     display: block; 
   }
 
-  /* --- FIX: ADDED ACTIVE LINK COLOR FOR MOBILE DROPDOWN --- */
+  
   .nav-links a.active {
-    color: #007bff; /* Highlight the active link with the primary blue */
-    font-weight: 600; /* Optional: Make it slightly bolder */
-    background: #f8f8f8; /* Optional: Give it a very light background to stand out */
+    color: #007bff; 
+    font-weight: 600; 
+    background: #f8f8f8; 
   }
-  /* -------------------------------------------------------- */
+ 
 
   .nav-links a:hover {
     color: #007bff;
     background: #f5f5f5; 
   }
   
-  /* Mobile User Badge */
+  
   .user-badge {
     background: transparent;
     color: #007bff;
@@ -197,8 +186,7 @@ button.logout-btn:hover {
     padding-right: 20px; 
     border-radius: 0; 
   }
-  
-  /* Mobile Logout Button */
+
   button.logout-btn {
     background: #e74c3c;
     color: white;
@@ -206,7 +194,7 @@ button.logout-btn:hover {
     text-align: center; 
   }
   
-  /* Mobile Auth Buttons */
+ 
   .auth-btn,
   .auth-btn.secondary {
     display: block;
@@ -221,8 +209,7 @@ button.logout-btn:hover {
   .auth-btn.secondary {
     color: #007bff;
   }
-  
-  /* Hide the active underline in the mobile menu */
+
   .nav-links a.active::after {
     display: none; 
   }
