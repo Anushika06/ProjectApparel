@@ -13,9 +13,7 @@ const HomePage = () => {
       try {
         setIsLoading(true);
         const data = await getProducts(); // Fetches all products
-        // Filter for T-shirts as requested in user flow
-        const tShirts = data.filter(p => p.name.toLowerCase().includes('t-shirt'));
-        setProducts(tShirts);
+        setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products:", error);
         toast.error('Could not load products.');

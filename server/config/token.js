@@ -1,12 +1,9 @@
-const jwt=require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
-const genToken=async (id)=>{
-    try{
-        const token=jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: "30d"});
-        return token;
-    }catch(err){
-        throw new Error("Error in generating token");
-    }
-}
+// Your genToken was async, but jwt.sign is synchronous.
+// This is the correct, simpler version from your text block.
+const genToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+};
 
-module.exports=genToken
+module.exports = genToken;

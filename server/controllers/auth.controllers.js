@@ -37,48 +37,35 @@ const signUp = async (req, res) => {
     if (failures.length > 0) {
       let errorMessage;
       switch (failures[0]) {
-        case 'min':
-          errorMessage = "Password must be at least 8 characters long.";
-          break;
-        case 'uppercase':
-          errorMessage = "Password must include at least one uppercase letter.";
-          break;
-        case 'lowercase':
-          errorMessage = "Password must include at least one lowercase letter.";
-          break;
-        case 'digits':
-          errorMessage = "Password must include at least one number.";
-          break;
-        case 'symbols':
-          errorMessage = "Password must include at least one special character.";
-          break;
-        case 'spaces':
-          errorMessage = "Password cannot contain spaces.";
-          break;
-        case 'oneOf':
-          errorMessage = "Password is too common. Please choose a different one.";
-          break;
-        default:
-          errorMessage = "Password is not strong enough.";
+        case 'min': errorMessage = 'Password must be at least 8 characters long.'; break;
+        case 'uppercase': errorMessage = 'Password must have at least one uppercase letter.'; break;
+        case 'lowercase': errorMessage = 'Password must have at least one lowercase letter.'; break;
+        case 'digits': errorMessage = 'Password must have at least one digit.'; break;
+        case 'symbols': errorMessage = 'Password must have at least one symbol.'; break;
+        default: errorMessage = 'Password is too weak.';
       }
       return res.status(400).json({ message: errorMessage });
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = await User.create({
+    const newUser = new User({
       name,
       email,
-      password: hashedPass,
+      password: hashedPassword,
     });
+    await newUser.save();
 
-    const token = genToken(newUser._id);
+    const token = await genToken(newUser._id); // Changed to await genToken
+
+    // --- THIS IS THE FIX ---
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      sameSite: "lax", // "lax" allows the cookie to be sent on reload
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
+    // -----------------------
 
     res.status(201).json({
       _id: newUser._id,
@@ -106,25 +93,41 @@ const signIn = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = genToken(user._id);
+    const token = await genToken(user._id); // Changed to await genToken
 
+    // --- THIS IS THE FIX ---
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      sameSite: "lax", // "lax" allows the cookie to be sent on reload
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
+    // -----------------------
 
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
     });
-    
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+// --- ADDED THIS FUNCTION TO FIX LOGOUT 404 ---
+const signOut = (req, res) => {
+  try {
+    res.cookie("token", "", {
+      httpOnly: true,
+      sameSite: "lax", // Must match other cookie settings
+      expires: new Date(0), // Expire the cookie immediately
+    });
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+// ---------------------------------------------
 
 
-module.exports = { signUp, signIn };
+// --- UPDATED EXPORTS ---
+module.exports = { signUp, signIn, signOut };

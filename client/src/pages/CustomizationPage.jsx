@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getProductById } from '../api/products';
 import { addItemToCart } from '../api/cart';
+import { getSignature, uploadImage } from '../api/upload'; // NEW IMPORT
 import { useAuth } from '../context/AuthContext';
 import AuthModal from '../components/auth/AuthModal';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -14,6 +15,7 @@ const CustomizationPage = () => {
 
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false); // NEW STATE for upload status
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Customization state
@@ -21,6 +23,10 @@ const CustomizationPage = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedFabric, setSelectedFabric] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [printDesign, setPrintDesign] = useState('');
+  
+  // --- MODIFIED THIS ---
+  const [imageFile, setImageFile] = useState(null); // To hold the file object
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -28,7 +34,6 @@ const CustomizationPage = () => {
         setIsLoading(true);
         const data = await getProductById(id);
         setProduct(data);
-        // Set defaults from product model
         if (data.availableSizes.length > 0) setSelectedSize(data.availableSizes[0]);
         if (data.availableColors.length > 0) setSelectedColor(data.availableColors[0]);
         if (data.fabrics.length > 0) setSelectedFabric(data.fabrics[0]);
@@ -42,16 +47,48 @@ const CustomizationPage = () => {
     fetchProduct();
   }, [id]);
 
-  const getCustomizationDetails = () => {
-    // This object matches the `cart.js` item schema
+  // --- NEW FUNCTION ---
+  // Handles uploading the image to Cloudinary if one is selected
+  const handleImageUpload = async () => {
+    if (!imageFile) {
+      return ''; // No file selected, return empty string for the URL
+    }
+
+    setIsUploading(true);
+    toast.loading('Uploading image...');
+    
+    try {
+      // 1. Get signature from our backend
+      const { signature, timestamp } = await getSignature();
+      
+      // 2. Upload file to Cloudinary
+      const uploadData = await uploadImage(imageFile, signature, timestamp);
+      
+      toast.dismiss();
+      toast.success('Image uploaded!');
+      setIsUploading(false);
+      return uploadData.secure_url; // Return the new Cloudinary URL
+      
+    } catch (error) {
+      toast.dismiss();
+      toast.error('Image upload failed. Please try again.');
+      setIsUploading(false);
+      return 'error'; // Return an error flag
+    }
+  };
+
+  // --- MODIFIED THIS FUNCTION ---
+  // Now accepts the uploaded URL
+  const getCustomizationDetails = (uploadedUrl) => {
     return {
       productId: product._id,
       selectedSize,
       selectedColor,
       selectedFabric,
       quantity: Number(quantity),
-      price: product.basePrice, // You can add more complex price logic here
-      // Add other fields like printDesign if you have them
+      price: product.basePrice,
+      printDesign,
+      referenceImage: uploadedUrl, // Use the new URL
     };
   };
 
@@ -63,23 +100,36 @@ const CustomizationPage = () => {
     return true;
   };
 
+  // --- MODIFIED THIS FUNCTION ---
+  // Now uploads image *before* adding to cart
   const handleAddToCart = async () => {
     if (!handleAuthCheck()) return;
 
+    // 1. Upload image first
+    const uploadedUrl = await handleImageUpload();
+    if (uploadedUrl === 'error') return; // Stop if upload failed
+
+    // 2. Add to cart with the new URL
     try {
-      const itemDetails = getCustomizationDetails();
+      const itemDetails = getCustomizationDetails(uploadedUrl);
       await addItemToCart(itemDetails);
       toast.success('Added to cart!');
     } catch (error) {
-      toast.error('Failed to add item. Please try again.');
+      toast.error('Failed to add item.');
     }
   };
 
-  const handleOrderNow = () => {
+  // --- MODIFIED THIS FUNCTION ---
+  // Now uploads image *before* going to checkout
+  const handleOrderNow = async () => {
     if (!handleAuthCheck()) return;
 
-    const itemDetails = getCustomizationDetails();
-    // Redirect to checkout, passing the single item in state
+    // 1. Upload image first
+    const uploadedUrl = await handleImageUpload();
+    if (uploadedUrl === 'error') return; // Stop if upload failed
+    
+    // 2. Go to checkout with the new URL
+    const itemDetails = getCustomizationDetails(uploadedUrl);
     navigate('/checkout', { state: { items: [itemDetails] } });
   };
 
@@ -121,6 +171,27 @@ const CustomizationPage = () => {
         </div>
 
         <div className="form-group">
+          <label>Print Design Description:</label>
+          <textarea 
+            rows="3"
+            value={printDesign}
+            onChange={(e) => setPrintDesign(e.target.value)}
+            placeholder="Describe your print idea..."
+          ></textarea>
+        </div>
+        
+        {/* --- THIS IS THE NEW FILE UPLOAD INPUT --- */}
+        <div className="form-group">
+          <label>Reference Image (Optional):</label>
+          <input 
+            type="file"
+            accept="image/png, image/jpeg, image/gif"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+        </div>
+        {/* ------------------------------------------ */}
+
+        <div className="form-group">
           <label>Quantity:</label>
           <input 
             type="number" 
@@ -134,8 +205,13 @@ const CustomizationPage = () => {
           Bulk order? <Link to="/contact">Contact for discount</Link>
         </p>
 
-        <button onClick={handleAddToCart}>Add to Cart</button>
-        <button onClick={handleOrderNow}>Order Now</button>
+        {/* Buttons are disabled while uploading */}
+        <button onClick={handleAddToCart} disabled={isUploading}>
+          {isUploading ? 'Uploading...' : 'Add to Cart'}
+        </button>
+        <button onClick={handleOrderNow} disabled={isUploading}>
+          {isUploading ? 'Uploading...' : 'Order Now'}
+        </button>
       </div>
     </div>
   );

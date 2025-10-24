@@ -16,7 +16,7 @@ const sampleProducts = [
     imageUrls: ['http://localhost:3000/images/tshirt.png'], // Using the static path we discussed
   },
   {
-    name: 'Premium Pullover Hoodie',
+    name: 'Premium Pullover Tshirt',
     description: 'A cozy and stylish hoodie made from high-quality fleece, ideal for colder weather.',
     basePrice: 45.00,
     fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],

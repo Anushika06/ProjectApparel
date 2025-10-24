@@ -33,7 +33,7 @@ const PastOrdersPage = () => {
           <h3>Order ID: {order._id}</h3>
           <p>Placed on: {new Date(order.createdAt).toLocaleDateString()}</p>
           <p>Delivery Address: {order.deliveryAddress}</p>
-          <p>Status: Processing</p> {/* You can add a status to your order.js model */}
+          {/* --- REMOVED THE "Status: Processing" LINE --- */}
           <p style={{fontWeight: 'bold', fontSize: '1.1rem'}}>Total: ${order.totalAmount.toFixed(2)}</p>
           <h4 style={{marginTop: '15px', marginBottom: '10px'}}>Items:</h4>
           <ul>

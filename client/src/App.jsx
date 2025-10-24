@@ -11,6 +11,7 @@ import CartPage from './pages/CartPage';
 import PastOrdersPage from './pages/PastOrdersPage';
 import CheckoutPage from './pages/CheckoutPage';
 import NotFoundPage from './pages/NotFoundPage';
+import OrderNowPage from './pages/OrderNowPage'; // --- NEW IMPORT ---
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/product/:id" element={<CustomizationPage />} />
+          {/* --- NEW ROUTE --- */}
+          <Route path="/order-now/:id" element={<OrderNowPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />

@@ -14,8 +14,8 @@ const ProductCard = ({ product }) => {
         <p>From ${product.basePrice.toFixed(2)}</p>
         <div className="card-buttons">
           <Link to={`/product/${product._id}`}>Customize</Link>
-          {/* Per the flow, "Order Now" also goes to customization */}
-          <Link to={`/product/${product._id}`}>Order Now</Link>
+          {/* --- UPDATED THIS LINK --- */}
+          <Link to={`/order-now/${product._id}`}>Order Now</Link>
         </div>
       </div>
     </div>

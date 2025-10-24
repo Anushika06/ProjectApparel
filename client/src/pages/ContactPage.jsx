@@ -12,13 +12,39 @@ const ContactPage = () => {
     preferredContactMethod: 'email', // Default value
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [phoneError, setPhoneError] = useState(''); // --- NEW STATE ---
+
+  // --- NEW VALIDATION FUNCTION ---
+  const validatePhone = (phone) => {
+    // Simple regex: 10-15 digits, allows +, spaces, dashes. Optional.
+    const phoneRegex = /^\+?[0-9\s-]{10,15}$/;
+    if (phone && !phoneRegex.test(phone)) { // Only validate if not empty
+      setPhoneError('Please enter a valid phone number (10-15 digits).');
+      return false;
+    }
+    setPhoneError('');
+    return true;
+  };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // --- VALIDATE PHONE ON CHANGE ---
+    if (name === 'phoneNumber') {
+      validatePhone(value);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // --- FINAL VALIDATION CHECK ---
+    if (!validatePhone(formData.phoneNumber)) {
+      toast.error('Please enter a valid phone number.');
+      return;
+    }
+
     setIsLoading(true);
     try {
       // Fields based on your enquiry.js model
@@ -28,6 +54,7 @@ const ContactPage = () => {
       setFormData({
         name: '', email: '', phoneNumber: '', companyName: '', message: '', preferredContactMethod: 'email',
       });
+      setPhoneError(''); // Reset error
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to send enquiry.');
     } finally {
@@ -50,7 +77,14 @@ const ContactPage = () => {
         </div>
         <div className="form-group">
           <label>Phone Number</label>
-          <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+          <input 
+            type="tel" 
+            name="phoneNumber" 
+            value={formData.phoneNumber} 
+            onChange={handleChange} // onChange is already handled
+          />
+          {/* --- DISPLAY ERROR --- */}
+          {phoneError && <p style={{ color: 'red', fontSize: '0.9rem', margin: '5px 0 0 0' }}>{phoneError}</p>}
         </div>
         <div className="form-group">
           <label>Company Name (Optional)</label>
@@ -58,7 +92,7 @@ const ContactPage = () => {
         </div>
         <div className="form-group">
           <label>Message</label>
-          <textarea name="message" rows="5" value={formData.message} onChange={handleChange} required></textarea>
+          <textarea name="message" rows="5" value={formData.message} onChange={handleChange}></textarea>
         </div>
         <div className="form-group">
           <label>Preferred Contact Method</label>
@@ -68,7 +102,7 @@ const ContactPage = () => {
             <option value="whatsapp">WhatsApp</option>
           </select>
         </div>
-        <button type="submit" disabled={isLoading}>
+        <button type="submit" disabled={isLoading || !!phoneError}>
           {isLoading ? 'Sending...' : 'Submit Enquiry'}
         </button>
       </form>
