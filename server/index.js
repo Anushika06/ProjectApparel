@@ -21,7 +21,7 @@ const app = express();
 app.use('/images', express.static('public/images'));
 
 const allowedOrigins = [
-  'http://localhost:5173', 
+  'http://localhost:5174', 
   'https://project-apparel.vercel.app',
   'https://project-apparel-3i2y61a24-anushikas-projects-e657cf47.vercel.app',
   'https://project-apparel-5obhjtsur-anushikas-projects-e657cf47.vercel.app'

@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const SignupPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
 
   const { signup } = useAuth();
   const navigate = useNavigate();
@@ -26,6 +28,11 @@ const SignupPage = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -50,15 +57,31 @@ const SignupPage = () => {
             required
           />
         </div>
-        <div className="form-group">
+        
+        <div className="form-group password-group"> 
           <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="password-input-wrapper">
+            <input
+              
+              type={showPassword ? 'text' : 'password'} 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="password-input-field"
+            />
+            
+            <button
+              type="button" 
+              className="password-toggle-btn"
+              onClick={togglePasswordVisibility}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
         </div>
+        
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Creating Account..." : "Sign Up"}
         </button>
