@@ -76,11 +76,11 @@ button.logout-btn:hover {
 }
 
 .auth-btn {
-  background: lightblue;
-  color: rgb(8, 17, 48);
-  border: 2px solid white;
+  background: transparent;
+  color: white;
   padding: 8px 15px;
   border-radius: 6px;
+  border: 2px solid white;
   font-weight: 600;
   transition: 0.3s ease;
 }
