@@ -25,41 +25,57 @@ This project was built out of inspiration from my **uncle's apparel manufacturin
 
 ## 🚀 Getting Started
 
-Follow these instructions to get a copy of the project up and running on your local machine.
-
 ### Prerequisites
 
 You'll need the following software installed:
 
   * **Node.js** and **npm** (or yarn)
-  * A backend API running to handle authentication and data persistence (assumed to be available for this frontend).
+  * A backend API running to handle authentication and data persistence.
 
-### Installation
+### Installation & Setup
 
 1.  **Clone the repository:**
-
     ```bash
     git clone [Your Repository URL Here]
-    cd teestore
+    cd ProjectApparel
     ```
-
-2.  **Install dependencies:**
-
+2.  **Install dependencies for the Frontend (Client):**
     ```bash
+    cd client
     npm install
     # or
     yarn install
     ```
-
-3.  **Run the application:**
-
+3.  **Install dependencies for the Backend (Server):**
     ```bash
+    cd ../server
+    npm install
+    # or
+    yarn install
+    ```
+4.  **Seed the Database (Optional but Recommended):**
+    *This populates your database with initial data (e.g., sample products).*
+    ```bash
+    node seeder.js
+    ```
+
+### Run the Application
+
+1.  **Start the Backend API (Server):**
+    *In the `server` directory.*
+    ```bash
+    npm start
+    # or use a common development command like 'npm run dev' if defined in the server's package.json
+    ```
+2.  **Start the Frontend Application (Client):**
+    *Open a **new terminal** tab/window and navigate to the `client` directory.*
+    ```bash
+    cd ../client
     npm start
     # or
     yarn start
     ```
-
-    The application will open in your browser at `http://localhost:3000`.
+    The frontend application will typically open in your browser at **`http://localhost:3000`**.
 
 -----
 
@@ -74,6 +90,8 @@ Key files and folders in this repository:
 | `src/context/AuthContext.jsx` | Centralized context for user authentication (`login`, `signup`, `logout`). |
 | `src/pages/CustomizePage.jsx` | Product detail and customization view. |
 | `src/pages/CartPage.jsx` | Component for viewing and managing the shopping cart. |
+| `src/pages/OrderNowPage.jsx` | Checkout process, final order summary, and dedicated component for WhatsApp order submission. |
+
 
 -----
 
