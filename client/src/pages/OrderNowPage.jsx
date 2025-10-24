@@ -100,7 +100,7 @@ const OrderNowPage = () => {
       </div>
 
       <div className="customization-options">
-        <h1 style={{color:"blue"}}>{product.name}</h1>
+        <h1 style={{color:"#007bff"}}>{product.name}</h1>
         <p>
           <span style={{fontWeight: 'bold'}}>Fabric:</span> {selectedFabric} 
           <span style={{marginLeft: '15px', fontWeight: 'bold'}}>Color:</span> {selectedColor}
