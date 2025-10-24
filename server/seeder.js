@@ -13,7 +13,7 @@ const sampleProducts = [
     basePrice: 220.00,
     fabrics: ['Matte','Cotton/Poly Fleece', 'Lycra','Dot Net', 'Spun Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
-    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
+    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue','White','Yellow'],
     imageUrls: [`${BASE_IMAGE_URL}/tshirt5.png`],
   },
   {
@@ -22,7 +22,7 @@ const sampleProducts = [
     basePrice: 210.00,
     fabrics: ['Dot Net','Cotton/Poly Fleece', 'Lycra','Spun Matte', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
-    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
+    availableColors: ['Navy Blue','Black', 'Charcoal', 'Maroon', 'Forest Green','White','Yellow'],
     imageUrls: [`${BASE_IMAGE_URL}/tshirt1.png`],
   },
   {
@@ -31,7 +31,7 @@ const sampleProducts = [
     basePrice: 210.00,
     fabrics: ['Dot Net','Cotton/Poly Fleece', 'Lycra', 'Spun Matte', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
-    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
+    availableColors: ['Navy Blue','Black', 'Charcoal', 'Maroon', 'Forest Green', 'White','Yellow'],
     imageUrls: [`${BASE_IMAGE_URL}/tshirt2.png`],
   },
   {
@@ -40,7 +40,7 @@ const sampleProducts = [
     basePrice: 150.00,
     fabrics: ['Spun Matte','Cotton/Poly Fleece', 'Lycra', 'Dot Net', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
-    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
+    availableColors: ['Yellow','Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue', 'White'],
     imageUrls: [`${BASE_IMAGE_URL}/tshirt4.png`],
   },
   {
@@ -49,7 +49,7 @@ const sampleProducts = [
     basePrice: 150.00,
     fabrics: ['Spun Matte','Cotton/Poly Fleece', 'Lycra', 'Dot Net', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
-    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
+    availableColors: ['Forest Green','Black', 'Charcoal', 'Maroon', 'Navy Blue', 'White','Yellow'],
     imageUrls: [`${BASE_IMAGE_URL}/tshirt3.png`],
   },
   {
@@ -58,7 +58,7 @@ const sampleProducts = [
     basePrice: 220.00,
     fabrics: ['Matte','Spun Matte','Cotton/Poly Fleece', 'Lycra', 'Dot Net'],
     availableSizes: ['S', 'M', 'L', 'XL'],
-    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
+    availableColors: ['White','Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue', 'Yellow'],
     imageUrls: [`${BASE_IMAGE_URL}/tshirt6.png`],
   }
 ];
