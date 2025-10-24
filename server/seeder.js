@@ -13,10 +13,10 @@ const sampleProducts = [
     fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green'],
-    imageUrls: ['http://localhost:3000/images/tshirt3.png'],
+    imageUrls: ['http://localhost:3000/images/tshirt5.png'],
   },
   {
-    name: 'Sports Dynamic Performance Polo',
+    name: 'Sports Dynamic Polo',
     description: 'A moisture-wicking performance polo with a bold sublimated print and a logo',
     basePrice: 45.00,
     fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],
@@ -41,6 +41,15 @@ const sampleProducts = [
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green'],
     imageUrls: ['http://localhost:3000/images/tshirt4.png'],
+  },
+  {
+    name: 'Kids Sports Uniform Set',
+    description: 'A vibrant uniform set for kids designed for comfort and activity.',
+    basePrice: 45.00,
+    fabrics: ['Cotton/Poly Fleece', '100% Cotton French Terry'],
+    availableSizes: ['S', 'M', 'L', 'XL'],
+    availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green'],
+    imageUrls: ['http://localhost:3000/images/tshirt3.png'],
   }
 ];
 

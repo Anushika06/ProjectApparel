@@ -1,9 +1,11 @@
-/* Basic Reset & Font */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   margin: 0;
-  background-color: #f4f4f9;
+  /* --- YOUR CHANGE IS INCLUDED --- */
+  background-color: beige;
+  /* ------------------------------- */
   color: #333;
+  overflow-x: hidden; /* Prevents horizontal scroll */
 }
 
 a {
@@ -19,9 +21,10 @@ button {
   font-size: 16px;
   font-weight: 600;
 }
-
+/* ... (rest of button styles) ... */
 button:hover {
   opacity: 0.9;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 button:disabled {
@@ -39,12 +42,30 @@ button:disabled {
 nav {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Updated for responsive */
   gap: 20px;
   padding: 15px 30px;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap; /* Allows nav to wrap */
 }
+
+/* --- RESPONSIVE NAV STYLES --- */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-toggle {
+  display: none; /* Hide toggle on desktop */
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+/* --- END RESPONSIVE NAV --- */
 
 nav a {
   font-weight: 500;
@@ -57,7 +78,7 @@ nav a:hover {
 
 nav span {
   font-weight: 600;
-  margin-left: auto;
+  /* margin-left: auto; */ /* Removed for better flex layout */
 }
 
 nav button {
@@ -75,7 +96,7 @@ nav button {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-
+/* ... (rest of form styles) ... */
 .form-container h1 {
   text-align: center;
   margin-top: 0;
@@ -113,7 +134,8 @@ nav button {
   margin-top: 15px;
 }
 
-/* Product Card & List */
+
+/* --- PRODUCT CARD (SOLVED) --- */
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -121,25 +143,38 @@ nav button {
 }
 
 .product-card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
-  overflow: hidden;
-  transition: transform 0.2s;
+  /* Removed fixed height */
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px; /* Kept your border-radius */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  overflow: hidden; /* Good practice */
+}
+
+.product-card img {
+  width: 100%; /* Make image responsive */
+  height: 300px; /* Set a consistent height for the image box */
+
+  /* --- THIS IS THE FIX --- */
+  object-fit: contain; /* Was 'cover', now 'contain' */
+  /* ----------------------- */
+
+  background-color: #fdfdfd; /* Add a light background for images */
+  border-top-left-radius: 20px; /* Kept your radius */
+  border-top-right-radius: 20px; /* Kept your radius */
 }
 
 .product-card:hover {
   transform: translateY(-5px);
 }
 
-.product-card img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
 .product-card-content {
   padding: 20px;
+  /* This ensures the content area doesn't shrink */
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card h3 {
@@ -157,8 +192,12 @@ nav button {
 .product-card .card-buttons {
   display: flex;
   gap: 10px;
+  margin-top: auto; /* Pushes buttons to the bottom of the card */
 }
+/* --- END PRODUCT CARD --- */
 
+
+/* ... (rest of .product-card styles) ... */
 .product-card .card-buttons a {
   flex: 1;
   text-align: center;
@@ -180,7 +219,7 @@ nav button {
 /* Customization Page */
 .customization-page {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr; /* 1 column on mobile */
   gap: 40px;
   max-width: 1000px;
   margin: 20px auto;
@@ -197,7 +236,7 @@ nav button {
 .customization-options h1 {
   margin-top: 0;
 }
-
+/* ... (rest of customization styles) ... */
 .customization-options button {
   margin-right: 10px;
   background-color: #28a745;
@@ -224,15 +263,16 @@ nav button {
 
 .cart-item {
   display: flex;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column; /* Stack on mobile */
+  align-items: flex-start;
+  gap: 15px;
 }
 
 .cart-item h4 {
   margin: 0;
   flex: 2;
 }
-
+/* ... (rest of cart styles) ... */
 .cart-item input {
   width: 60px;
 }
@@ -261,6 +301,7 @@ nav button {
   align-items: center;
   height: 80vh;
 }
+/* ... (rest of spinner styles) ... */
 .spinner {
   width: 50px;
   height: 50px;
@@ -287,13 +328,14 @@ nav button {
   align-items: center;
   z-index: 1000;
 }
-
+/* ... (rest of modal styles) ... */
 .modal-content {
   background: white;
   padding: 30px;
   border-radius: 8px;
   text-align: center;
   max-width: 400px;
+  margin: 15px; /* Added for small screens */
 }
 
 .modal-content a {
@@ -310,3 +352,97 @@ nav button {
   background-color: #6c757d;
   color: white;
 }
+
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Tablet and larger */
+@media (min-width: 768px) {
+  .customization-page {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cart-item {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cart-item input {
+    margin-left: auto;
+  }
+}
+
+
+/* Mobile (small screens) */
+@media (max-width: 767px) {
+  nav {
+    justify-content: space-between;
+  }
+  
+  .nav-toggle {
+    display: block; /* Show burger menu */
+  }
+
+  .nav-links {
+    display: none; /* Hide links by default */
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    gap: 15px;
+    padding-top: 15px;
+  }
+  
+  .nav-links.open {
+    display: flex;
+  }
+
+  nav button {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  nav span {
+    width: 100%;
+    order: -1; /* Move "Hi, Anushika" to the top */
+  }
+
+  .form-container {
+    margin: 20px 15px;
+    padding: 20px;
+  }
+
+  .product-list {
+    gap: 15px;
+  }
+}
+
+h1, h2, h3 {
+  color: #222;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+body {
+  background-color: #fafafa;
+  color: #333;
+}
+
+/* Add gentle fade-in animation for pages */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+div, section, .product-list {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Product card polish */
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+

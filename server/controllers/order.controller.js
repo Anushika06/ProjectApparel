@@ -56,7 +56,7 @@ const createOrder = async (req, res) => {
 *Color:* ${item.selectedColor || 'N/A'}
 *Fabric:* ${item.selectedFabric || 'N/A'}
 *Quantity:* ${item.quantity}
-*Price:* $${item.price.toFixed(2)}
+*Price:* ₹${item.price.toFixed(2)}
 *Print Design:* ${item.printDesign || 'None'}
 *Reference Image:* ${item.referenceImage || 'None'}
 --------------------
@@ -65,7 +65,7 @@ const createOrder = async (req, res) => {
 
     // C. Create final message
     const message = `
-*🎉 New Order Received! 🎉*
+* New Order Received! *
 
 *Customer Name:* ${customerName}
 *Customer Phone:* ${phoneNumber}
@@ -75,7 +75,7 @@ ${itemsString}
 *Delivery Option:* ${deliveryOption}
 *Delivery Address:* ${deliveryAddress}
 
-*TOTAL AMOUNT: $${totalAmount.toFixed(2)}*
+*TOTAL AMOUNT: ₹${totalAmount.toFixed(2)}*
 `;
 
     // D. Create URL
