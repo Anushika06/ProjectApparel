@@ -4,6 +4,7 @@ const Product = require('./models/product.js');
 
 dotenv.config();
 
+const BASE_IMAGE_URL = 'https://projectapparel.onrender.com/images';
 
 const sampleProducts = [
   {
@@ -13,7 +14,7 @@ const sampleProducts = [
     fabrics: ['Matte','Cotton/Poly Fleece', 'Lycra','Dot Net', 'Spun Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
-    imageUrls: ['http://localhost:3000/images/tshirt5.png'],
+    imageUrls: [`${BASE_IMAGE_URL}/tshirt5.png`],
   },
   {
     name: 'Sports Dynamic Polo',
@@ -22,7 +23,7 @@ const sampleProducts = [
     fabrics: ['Dot Net','Cotton/Poly Fleece', 'Lycra','Spun Matte', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
-    imageUrls: ['http://localhost:3000/images/tshirt1.png'],
+    imageUrls: [`${BASE_IMAGE_URL}/tshirt1.png`],
   },
   {
     name: 'Long-Sleeve Athletic Jersey',
@@ -31,7 +32,7 @@ const sampleProducts = [
     fabrics: ['Dot Net','Cotton/Poly Fleece', 'Lycra', 'Spun Matte', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
-    imageUrls: ['http://localhost:3000/images/tshirt2.png'],
+    imageUrls: [`${BASE_IMAGE_URL}/tshirt2.png`],
   },
   {
     name: 'School Uniform Polo Shirt',
@@ -40,7 +41,7 @@ const sampleProducts = [
     fabrics: ['Spun Matte','Cotton/Poly Fleece', 'Lycra', 'Dot Net', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
-    imageUrls: ['http://localhost:3000/images/tshirt4.png'],
+    imageUrls: [`${BASE_IMAGE_URL}/tshirt4.png`],
   },
   {
     name: 'Kids Sports Uniform Set',
@@ -49,7 +50,7 @@ const sampleProducts = [
     fabrics: ['Spun Matte','Cotton/Poly Fleece', 'Lycra', 'Dot Net', 'Matte'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
-    imageUrls: ['http://localhost:3000/images/tshirt3.png'],
+    imageUrls: [`${BASE_IMAGE_URL}/tshirt3.png`],
   },
   {
     name: 'Contrast Polo',
@@ -58,7 +59,7 @@ const sampleProducts = [
     fabrics: ['Matte','Spun Matte','Cotton/Poly Fleece', 'Lycra', 'Dot Net'],
     availableSizes: ['S', 'M', 'L', 'XL'],
     availableColors: ['Black', 'Charcoal', 'Maroon', 'Forest Green', 'Navy Blue'],
-    imageUrls: ['http://localhost:3000/images/tshirt6.png'],
+    imageUrls: [`${BASE_IMAGE_URL}/tshirt6.png`],
   }
 ];
 
